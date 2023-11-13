@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>AHRI 곰팡이/진드기 검출</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="css/import.css" rel="stylesheet" type="text/css">
+  <!-- <link href="css/intro.css" rel="stylesheet" type="text/css"> -->
+
+  <script defer src="js/AHRI.js"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <script src="./js/crownix-chart.min.js"></script>
+  <script src="./js/jquery-1.11.0.min.js"></script>
+
+</head>
+
+<script>
+  $(document).ready(function () {
+     $('#light').on('animationend', function() {
+
+      fadeOutAllElements();
+      redirectToNewPage();
+    });
+
+    function fadeOutAllElements() {
+      var container = $('#container');
+        container.css("transition", "opacity 3s");
+        container.css("opacity", "0");
+      
+    }
+
+    function redirectToNewPage() {
+      // 다른 페이지로 이동
+      window.location.href = 'index2.html';
+    }
+  })
+</script>
+
+<style>
+#introPage{
+  background-image: url("./images/BACKGROUND.png");
+  /* background-size: cover; */
+  height: 100vh;
+  background-size: cover;
+  /* position:sticky; */
+  /* z-index: 10000; */
+  position: absolute;
+  overflow: hidden;
+
+
+}
+
+
+#hand{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  opacity: 0;
+  animation: fadein 2s 2s forwards; 
+  
+}
+
+#centertext{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  opacity: 0;
+  animation: fadein 1s 3s forwards;
+  /* z-index: 1000000; */
+}
+#light{
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 30%;
+  /* opacity: 0.7; */
+  opacity: 0;
+  animation: fadein1 2s 3s forwards;
+  /* z-index: 1000000; */
+}
+
+@keyframes fadein {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@keyframes fadein1 {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 0.7;
+  }
+}
+
+@keyframes fadeout {
+  from {
+      opacity:0.7;
+  }
+  to {
+      opacity: 0;
+  }
+}
+
+@keyframes moveImage {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100px); /* 이동 거리를 조절할 수 있습니다. */
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+/* 각 이미지에 무작위로 클래스를 부여하여 애니메이션을 적용합니다. */
+#introPage img:nth-child(1) {
+  animation: fadein 5s, moveImage 5s infinite; /* 5초 동안 애니메이션 반복 */
+  position: relative;
+  top:60%;
+  left: 5%;
+  width: 20%;
+}
+
+#introPage img:nth-child(2) {
+  animation: fadein 5s, moveImage 7s infinite; /* 7초 동안 애니메이션 반복 */
+  position: relative;
+  top:60%;
+  left: 40%;
+  width: 5%;
+}
+
+#introPage img:nth-child(3) {
+  animation: fadein 5s, moveImage 10s infinite; /* 6초 동안 애니메이션 반복 */
+  position: relative;
+  top:10%;
+  left: 40%;
+  width: 20%;
+}
+
+#introPage img:nth-child(4) {
+  animation: fadein 5s, moveImage 8s infinite; /* 8초 동안 애니메이션 반복 */
+  position: relative;
+  top:10%;
+  left: -30%;
+  width: 10%;
+}
+
+#introPage img:nth-child(5) {
+  animation: fadein 5s, moveImage 12s infinite; /* 5.5초 동안 애니메이션 반복 */
+  position: relative;
+  top:40%;
+  left: 20%;
+  width: 12%;
+}
+
+
+
+</style>
+
+<body>
+  <div id="container">
+    <div id="introPage">
+      <!-- <div class="check"> -->
+        <img src="./images/AHRI.png" alt="">
+        <img src="./images/AIR.png" alt="">
+        <img src="./images/BIGDATA.png" alt="">
+        <img src="./images/HEALTH.png" alt="">
+        <img src="./images/SCIENCE.png" alt="">
+        <img id="hand" src="./images/HAND.png" alt="">
+        <img id="centertext" src="./images/CENTERTEXT.png" alt="">
+        <img id="light" src="./images/LIGHT.png" alt="">
+      <!-- </div> -->
+    </div>
+  </div>
+    
+</body>

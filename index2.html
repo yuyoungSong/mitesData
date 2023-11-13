@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>AHRI 곰팡이/집먼지진드기 검출</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="css/import.css" rel="stylesheet" type="text/css">
+
+  <script defer src="js/AHRI.js"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <script src="./js/crownix-chart.min.js"></script>
+  <script src="./js/jquery-1.11.0.min.js"></script>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+</head>
+
+<script>
+  
+</script>
+
+
+<body>
+
+  <!-- 상단 이미지(Big Data) -->
+  <a href="./index.html">
+    <header style="background-image: url(./images/bicdata2.png);"></header>
+  </a>
+  <!-- 데이터 입력부분 -->
+  <section id="inputDataSection"> 
+    <h2>
+      곰팡이와 집먼지진드기 데이터로 실내공기 빅데이터 분석을 시작합니다.<br>
+      필요한 정보를 입력해주세요.
+    </h2>
+    <!-- 필수입력데이터: 장소중분류siteInput, co2, tvoc, pm2.5, pm10, hcho, 곰팡이mold, 집먼지진드기 -->
+    <ul id="essentialData">
+      <li id="siteInput">
+        <div>
+        
+          <input type="text" required>
+          <label>*장소중분류</label>
+          <span></span>
+          
+        </div>
+      </li>
+      <li id="co2" class="essenNumData">
+        <div>
+        
+          <input type="number" onfocus="this.placeholder = '219 ~ 3757'" onblur="this.placeholder = ''" required>
+          <label>*CO2</label>
+          <span></span>
+          <p style="color: rgb(153, 20, 20); font-size: 12px; font-weight: bold;"></p>
+          
+        </div>
+      </li>
+      <li id="tvoc">
+        <div>
+          <input type="number" onfocus="this.placeholder = '0 ~ 768'" onblur="this.placeholder = ''" required>
+          <label>*TVOC</label>
+          <span></span>
+          <p style="color: rgb(153, 20, 20); font-size: 12px; font-weight: bold;"></p>
+        </div>
+      </li>
+      <li id="pm2_5">
+        <div>
+          <input type="number" onfocus="this.placeholder = '1 ~ 427'" onblur="this.placeholder = ''" required>
+          <label>*PM2.5</label>
+          <span></span>
+          <p style="color: rgb(153, 20, 20); font-size: 12px; font-weight: bold;"></p>
+        </div>
+      </li>
+      <li id="pm10">
+        <div>
+          <input type="number" onfocus="this.placeholder = '1 ~ 537'" onblur="this.placeholder = ''" required>
+          <label>*PM10</label>
+          <span></span>
+          <p style="color: rgb(153, 20, 20); font-size: 12px; font-weight: bold;"></p>
+        </div>
+      </li>
+      <li id="hcho">
+        <div>
+          <input type="number" onfocus="this.placeholder = '0 ~ 192'" onblur="this.placeholder = ''" required>
+          <label>*HCHO</label>
+          <span></span>
+          <p style="color: rgb(153, 20, 20); font-size: 12px; font-weight: bold;"></p>
+        </div>
+      </li>
+      <li id="molds">
+        <div>
+          <input type="number" onfocus="this.placeholder = '0 ~ 15814'" onblur="this.placeholder = ''" required>
+          <label>*곰팡이</label>
+          <span></span>
+          <p style="color: rgb(153, 20, 20); font-size: 12px; font-weight: bold;"></p>
+        </div>
+      </li>
+      <li style="margin: 60px auto;">
+        
+          <label style="font-weight: bold; color: #666;">*집먼지진드기</label>
+          <ul id="homedust" style="margin-top: 30px;">
+            <li>0~20마리</li>
+            <li>20~99마리</li>
+            <li>100마리 이상</li>
+          </ul>
+        
+      </li>
+    </ul>
+    <section id="optionData">
+      <h3>추가데이터입력</h3>
+      <ul>
+        <li>
+          <div>
+            <input type="text" id="sidoData" required>
+            <label>지역</label>
+            <span></span>
+          </div>
+        </li>
+        <li>
+          
+            <label style="font-weight: bold; color: #666;">성별</label>
+            <ul class="button" id="sex">
+              <li value="1">남</li>
+              <li value="2">여</li>
+            </ul>
+          
+        </li>
+        <li>
+          <label style="font-weight: bold; color: #666;">소득수준</label>
+          <ul class="button" id="incm">
+            <li value="3">상</li>
+            <li value="2">중</li>
+            <li value="1">하</li>
+          </ul>
+        </li>
+        <li>
+          <div>
+            <input type="text" id="age" autocomplete="off" required>
+            <label>연령대</label>
+            <span></span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <button id="start" style="margin: 40px auto 80px;">분석시작</button>
+  </section>
+  <!-- 필수/선택 데이터의 선택 목록 -->
+  <section id="inputDataListSection">
+    <ul id = "site" class="popList">
+      <li class="list1 list">결손</li>
+      <li class="list1 list">경로당</li>
+      <li class="list1 list">노인공동</li>
+      <li class="list1 list">다문화</li>
+      <li class="list1 list">독거노인</li>
+      <li class="list1 list">미혼모시설</li>
+      <li class="list1 list">장애인</li>
+      <li class="list1 list">장애인시설</li>
+      <li class="list1 list">환경성질환</li>
+      <li class="list1 list">기타</li>
+      <li class="list1 list">기타(시설)</li>
+    </ul>
+    <ul id="sido" class="popList">
+      <li class="list2 list" id="seoul">서울특별시</li>
+      <li class="list2 list" id="busan">부산광역시</li>
+      <li class="list2 list" id="deagu">대구광역시</li>
+      <li class="list2 list" id="incheon">인천광역시</li>
+      <li class="list2 list" id="gwangju">광주광역시</li>
+      <li class="list2 list" id="deajeon">대전광역시</li>
+      <li class="list2 list" id="ulsan">울산광역시</li>
+      <li class="list2 list" id="Sejong">세종특별자치시</li>
+      <li class="list2 list" id="gyeonggi">경기도</li>
+      <li class="list2 list" id="gangwon">강원도 </li>
+      <li class="list2 list" id="Chungbuk">충청북도 </li>
+      <li class="list2 list" id="Chungnam">충청남도 </li>
+      <li class="list2 list" id="jeonbuk">전라북도 </li>
+      <li class="list2 list" id="Jeonnam">전라남도 </li>
+      <li class="list2 list" id="Gyeongbuk">경상북도 </li>
+      <li class="list2 list" id="Gyeongnam">경상남도 </li>
+      <li class="list2 list" id="Jeju">제주특별자치도 </li>
+    </ul>
+
+    <ul class="popList" id="seoulgunGu" >
+      <li class="list list3">강남구</li>
+      <li class="list list3">강북구</li>
+      <li class="list list3">강동구</li>
+      <li class="list list3">강서구</li>
+      <li class="list list3">관악구</li>
+      <li class="list list3">광진구</li>
+      <li class="list list3">구로구</li>
+      <li class="list list3">금천구</li>
+      <li class="list list3">노원구</li>
+      <li class="list list3">도봉구</li>
+      <li class="list list3">동대문구</li>
+      <li class="list list3">동작구</li>
+      <li class="list list3">마포구</li>
+      <li class="list list3">서대문구</li>
+      <li class="list list3">서초구</li>
+      <li class="list list3">성동구</li>
+      <li class="list list3">성북구</li>
+      <li class="list list3">송파구</li>
+      <li class="list list3">양천구</li>
+      <li class="list list3">영등포구</li>
+      <li class="list list3">용산구</li>
+      <li class="list list3">은평구</li>
+      <li class="list list3">종로구</li>
+      <li class="list list3">중구</li>
+      <li class="list list3">중랑구</li>
+    </ul>
+    <ul class="popList" id="busangunGu">
+      <li class="list list3">중구</li>
+      <li class="list list3">서구</li>
+      <li class="list list3">동구</li>
+      <li class="list list3">영도구</li>
+      <li class="list list3">진구</li>
+      <li class="list list3">동래구</li>
+      <li class="list list3">남구</li>
+      <li class="list list3">북구</li>
+      <li class="list list3">해운대구</li>
+      <li class="list list3">사하구</li>
+      <li class="list list3">금정구</li>
+      <li class="list list3">강서구</li>
+      <li class="list list3">연제구</li>
+      <li class="list list3">수영구</li>
+      <li class="list list3">사상구</li>
+      <li class="list list3">기장군</li>
+    </ul>
+
+    <ul class="popList" id="deagugunGu">
+      <li class="list list3">중구</li>
+      <li class="list list3">동구</li>
+      <li class="list list3">서구</li>
+      <li class="list list3">남구</li>
+      <li class="list list3">북구</li>
+      <li class="list list3">수성구</li>
+      <li class="list list3">달서구</li>
+      <li class="list list3">달성군</li>
+      <li class="list list3">군위군</li>
+    </ul>
+
+    <ul class="popList" id="incheongunGu">
+      <li class="list list3">중구</li>
+      <li class="list list3">동구</li>
+      <li class="list list3">서구</li>
+      <li class="list list3">남구</li>
+      <li class="list list3">북구</li>
+      <li class="list list3">수성구</li>
+      <li class="list list3">달서구</li>
+      <li class="list list3">달성군</li>
+      <li class="list list3">군위군</li>
+    </ul>
+
+    <ul class="popList" id="gwangjugunGu">
+      <li class="list list3">동구</li>
+      <li class="list list3">서구</li>
+      <li class="list list3">남구</li>
+      <li class="list list3">북구</li>
+      <li class="list list3">광산구</li>
+    </ul>
+
+    <ul class="popList" id="deajeongunGu">
+      <li class="list list3">동구</li>
+      <li class="list list3">중구</li>
+      <li class="list list3">서구</li>
+      <li class="list list3">유성구</li>
+      <li class="list list3">대덕구</li>
+    </ul>
+
+    <ul class="popList" id="ulsangunGu">
+      <li class="list list3">중구</li>
+      <li class="list list3">동구</li>
+      <li class="list list3">남구</li>
+      <li class="list list3">북구</li>
+      <li class="list list3">울주군</li>
+    </ul>
+
+    <ul class="popList" id="SejonggunGu">
+      <li class="list list3">조치원읍</li>
+      <li class="list list3">금남면</li>
+      <li class="list list3">부강면</li>
+      <li class="list list3">소정면</li>
+      <li class="list list3">연기면</li>
+      <li class="list list3">연동면</li>
+      <li class="list list3">연서면</li>
+      <li class="list list3">장군면</li>
+      <li class="list list3">전동면</li>
+      <li class="list list3">전의면</li>
+      <li class="list list3">고운동</li>
+      <li class="list list3">나성동</li>
+      <li class="list list3">다정동</li>
+      <li class="list list3">대평동</li>
+      <li class="list list3">도담동</li>
+      <li class="list list3">반곡동</li>
+      <li class="list list3">보람동</li>
+      <li class="list list3">소담동</li>
+      <li class="list list3">새롬동</li>
+      <li class="list list3">아름동</li>
+      <li class="list list3">어진동</li>
+      <li class="list list3">종촌동</li>
+      <li class="list list3">한솔동</li>
+      <li class="list list3">해밀동</li>
+    </ul>
+
+    <ul class="popList" id="gyeonggigunGu">
+      <li class="list list3">수원시</li>
+      <li class="list list3">성남시</li>
+      <li class="list list3">의정부시</li>
+      <li class="list list3">안양시</li>
+      <li class="list list3">부천시</li>
+      <li class="list list3">광명시</li>
+      <li class="list list3">평택시</li>
+      <li class="list list3">동두천시</li>
+      <li class="list list3">안산시</li>
+      <li class="list list3">고양시</li>
+      <li class="list list3">과천시</li>
+      <li class="list list3">의왕시</li>
+      <li class="list list3">구리시</li>
+      <li class="list list3">남양주시</li>
+      <li class="list list3">오산시</li>
+      <li class="list list3">시흥시</li>
+      <li class="list list3">군포시</li>
+      <li class="list list3">하남시</li>
+      <li class="list list3">용인시</li>
+      <li class="list list3">파주시</li>
+      <li class="list list3">이천시</li>
+      <li class="list list3">안성시</li>
+      <li class="list list3">김포시</li>
+      <li class="list list3">화성시</li>
+      <li class="list list3">광주시</li>
+      <li class="list list3">양주시</li>
+      <li class="list list3">포천시</li>
+      <li class="list list3">여주시</li>
+      <li class="list list3">연천군</li>
+      <li class="list list3">가평군</li>
+      <li class="list list3">양평군</li>
+    </ul>
+
+    <ul class="popList" id="gangwongunGu">
+      <li class="list list3">춘천시</li>
+      <li class="list list3">원주시</li>
+      <li class="list list3">강릉시</li>
+      <li class="list list3">동해시</li>
+      <li class="list list3">태백시</li>
+      <li class="list list3">속초시</li>
+      <li class="list list3">삼척시</li>
+      <li class="list list3">홍천군</li>
+      <li class="list list3">횡성군</li>
+      <li class="list list3">영월군</li>
+      <li class="list list3">평창군</li>
+      <li class="list list3">정선군</li>
+      <li class="list list3">철원군</li>
+      <li class="list list3">화천군</li>
+      <li class="list list3">양구군</li>
+      <li class="list list3">인제군</li>
+      <li class="list list3">고성군</li>
+      <li class="list list3">양양군</li>
+    </ul>
+
+    <ul class="popList" id="ChungbukgunGu">
+      <li class="list list3">청주시</li>
+      <li class="list list3">충주시</li>
+      <li class="list list3">제천시</li>
+      <li class="list list3">보은군</li>
+      <li class="list list3">옥천군</li>
+      <li class="list list3">영동군</li>
+      <li class="list list3">증평군</li>
+      <li class="list list3">진천군</li>
+      <li class="list list3">괴산군</li>
+      <li class="list list3">음성군</li>
+      <li class="list list3">단양군</li>
+    </ul>
+
+    <ul class="popList" id="ChungnamgunGu">
+      <li class="list list3">천안시</li>
+      <li class="list list3">공주시</li>
+      <li class="list list3">보령시</li>
+      <li class="list list3">아산시</li>
+      <li class="list list3">서산시</li>
+      <li class="list list3">논산시</li>
+      <li class="list list3">계룡시</li>
+      <li class="list list3">당진시</li>
+      <li class="list list3">금산군</li>
+      <li class="list list3">부여군</li>
+      <li class="list list3">서천군</li>
+      <li class="list list3">청양군</li>
+      <li class="list list3">홍성군</li>
+      <li class="list list3">예산군</li>
+      <li class="list list3">태안군</li>
+    </ul>
+
+    <ul class="popList" id="jeonbukgunGu">
+      <li class="list list3">전주시</li>
+      <li class="list list3">군산시</li>
+      <li class="list list3">익산시</li>
+      <li class="list list3">정읍시</li>
+      <li class="list list3">남원시</li>
+      <li class="list list3">김제시</li>
+      <li class="list list3">완주군</li>
+      <li class="list list3">진안군</li>
+      <li class="list list3">무주군</li>
+      <li class="list list3">장수군</li>
+      <li class="list list3">임실군</li>
+      <li class="list list3">순창군</li>
+      <li class="list list3">고창군</li>
+      <li class="list list3">부안군</li>
+    </ul>
+
+    <ul class="popList" id="JeonnamgunGu">
+      <li class="list list3">목포시</li>
+      <li class="list list3">여수시</li>
+      <li class="list list3">순천시</li>
+      <li class="list list3">나주시</li>
+      <li class="list list3">광양시</li>
+      <li class="list list3">담양군</li>
+      <li class="list list3">곡성군</li>
+      <li class="list list3">구례군</li>
+      <li class="list list3">고흥군</li>
+      <li class="list list3">보성군</li>
+      <li class="list list3">화순군</li>
+      <li class="list list3">장흥군</li>
+      <li class="list list3">강진군</li>
+      <li class="list list3">해남군</li>
+      <li class="list list3">영암군</li>
+      <li class="list list3">무안군</li>
+      <li class="list list3">함평군</li>
+      <li class="list list3">영광군</li>
+      <li class="list list3">장성군</li>
+      <li class="list list3">완도군</li>
+      <li class="list list3">진도군</li>
+      <li class="list list3">신안군</li>
+    </ul>
+
+    <ul class="popList" id="GyeongbukgunGu">
+      <li class="list list3">포항시</li>
+      <li class="list list3">경주시</li>
+      <li class="list list3">김천시</li>
+      <li class="list list3">안동시</li>
+      <li class="list list3">구미시</li>
+      <li class="list list3">영주시</li>
+      <li class="list list3">영천시</li>
+      <li class="list list3">상주시</li>
+      <li class="list list3">문경시</li>
+      <li class="list list3">경산시</li>
+      <li class="list list3">의성군</li>
+      <li class="list list3">청송군</li>
+      <li class="list list3">영양군</li>
+      <li class="list list3">영덕군</li>
+      <li class="list list3">청도군</li>
+      <li class="list list3">고령군</li>
+      <li class="list list3">성주군</li>
+      <li class="list list3">칠곡군</li>
+      <li class="list list3">예천군</li>
+      <li class="list list3">봉화군</li>
+      <li class="list list3">울진군</li>
+      <li class="list list3">울릉군</li>
+    </ul>
+
+    <ul class="popList" id="GyeongnamgunGu">
+      <li class="list list3">창원시</li>
+      <li class="list list3">진주시</li>
+      <li class="list list3">통영시</li>
+      <li class="list list3">사천시</li>
+      <li class="list list3">김해시</li>
+      <li class="list list3">밀양시</li>
+      <li class="list list3">거제시</li>
+      <li class="list list3">양산시</li>
+      <li class="list list3">의령군</li>
+      <li class="list list3">함안군</li>
+      <li class="list list3">창녕군</li>
+      <li class="list list3">고성군</li>
+      <li class="list list3">남해군</li>
+      <li class="list list3">하동군</li>
+      <li class="list list3">산청군</li>
+      <li class="list list3">함양군</li>
+      <li class="list list3">거창군</li>
+      <li class="list list3">합천군</li>
+    </ul>
+
+    <ul class="popList" id="JejugunGu">
+      <li class="list list3">제주시</li>
+      <li class="list list3">서귀포시</li>
+    </ul>
+
+    <ul id="agelist" class="popList">
+      <li class="list4 list">0-4</li>
+      <li class="list4 list">5-9</li>
+      <li class="list4 list">10-14</li>
+      <li class="list4 list">15-19</li>
+      <li class="list4 list">20-24</li>
+      <li class="list4 list">25-29</li>
+      <li class="list4 list">30-34</li>
+      <li class="list4 list">35-39</li>
+      <li class="list4 list">40-44</li>
+      <li class="list4 list">45-49</li>
+      <li class="list4 list">50-54</li>
+      <li class="list4 list">55-59</li>
+      <li class="list4 list">60-64</li>
+      <li class="list4 list">65-69</li>
+      <li class="list4 list">70-74</li>
+      <li class="list4 list">75-79</li>
+      <li class="list4 list">80-84</li>
+      <li class="list4 list">85+</li>
+    </ul>
+  </section>
+
+  <!-- 분석 로딩 화면 & 결과그래프 -->
+  <section id="resultGraphSection">
+    <!-- <div id="loading"><img src="./images/loading.png" alt=""></div> -->
+    <div id="loading">
+      <div class="droplet"></div>
+      <div class="droplet"></div>
+      <div class="droplet"></div>
+    </div>
+    <div id="chart_result"></div>
+    
+  </section>
+
+ 
+</body>
+
+</html>
